@@ -6,7 +6,7 @@ Date: 2025
 Description: Flask web application implementing CRUD operations for the Community Connect system
 """
 
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash
 from database import (
     create_volunteer, get_all_volunteers, get_volunteer_by_id, update_volunteer_phone,
     get_all_organisations, get_all_events, get_event_by_id, delete_event,
@@ -219,31 +219,7 @@ def delete_event_route(event_id):
     
     return redirect(url_for('view_events'))
 
-# ====================================
-# API ENDPOINTS (for AJAX interactions)
-# ====================================
-
-@app.route('/api/volunteers')
-def api_volunteers():
-    """
-    API endpoint to get all volunteers as JSON
-    """
-    volunteers = get_all_volunteers()
-    if volunteers is None:
-        return jsonify({'error': 'Database error'}), 500
-    
-    return jsonify([dict(volunteer) for volunteer in volunteers])
-
-@app.route('/api/organisations')
-def api_organisations():
-    """
-    API endpoint to get all organisations as JSON
-    """
-    organisations = get_all_organisations()
-    if organisations is None:
-        return jsonify({'error': 'Database error'}), 500
-    
-    return jsonify([dict(org) for org in organisations])
+# API endpoints removed for basic CRUD implementation
 
 # ====================================
 # ERROR HANDLERS
@@ -263,79 +239,7 @@ def internal_server_error(e):
     """
     return render_template('error.html', error_code=500, error_message="Internal server error"), 500
 
-# ====================================
-# TEMPLATE FILTERS
-# ====================================
-
-@app.template_filter('datetime')
-def datetime_filter(value):
-    """
-    Format datetime strings for display
-    """
-    if not value:
-        return ""
-    
-    try:
-        # Try to parse as date first
-        dt = datetime.strptime(value, '%Y-%m-%d')
-        return dt.strftime('%d %B %Y')
-    except ValueError:
-        try:
-            # Try to parse as datetime
-            dt = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
-            return dt.strftime('%d %B %Y at %I:%M %p')
-        except ValueError:
-            # Return original value if parsing fails
-            return value
-
-@app.template_filter('phone')
-def phone_filter(value):
-    """
-    Format phone numbers for display
-    """
-    if not value:
-        return ""
-    
-    # Remove any existing formatting
-    clean = value.replace('-', '').replace(' ', '').replace('(', '').replace(')', '')
-    
-    # Format as (04XX) XXX-XXX for Australian mobile numbers
-    if len(clean) == 10 and clean.startswith('04'):
-        return f'({clean[:4]}) {clean[4:7]}-{clean[7:]}'
-    
-    return value
-
-@app.template_filter('age')
-def age_filter(date_of_birth):
-    """
-    Calculate age from date of birth
-    """
-    if not date_of_birth:
-        return "N/A"
-    
-    try:
-        # Parse date of birth
-        if isinstance(date_of_birth, str):
-            dob = datetime.strptime(date_of_birth, '%Y-%m-%d').date()
-        else:
-            dob = date_of_birth
-        
-        # Calculate age
-        today = datetime.now().date()
-        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-        return age
-    except (ValueError, AttributeError):
-        return "N/A"
-
-@app.template_filter('now')
-def now_filter(format_str=None):
-    """
-    Get current timestamp
-    """
-    now = datetime.now()
-    if format_str == 'datetime':
-        return now.strftime('%Y-%m-%d %H:%M:%S')
-    return now.strftime('%d %B %Y at %I:%M %p')
+# Template filters removed for basic implementation
 
 # ====================================
 # APPLICATION STARTUP

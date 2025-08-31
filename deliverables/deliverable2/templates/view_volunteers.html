@@ -5,407 +5,63 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-info text-white">
-                <h4 class="card-title mb-0">
-                    <i class="fas fa-users me-2"></i>
-                    Registered Volunteers
-                </h4>
-                <small class="text-light">Volunteer management and contact information</small>
+        <div class="card">
+            <div class="card-header">
+                <h4>Registered Volunteers</h4>
+                <small>Volunteer management and contact information</small>
             </div>
             
             <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-md-8">
-                        <p class="text-muted mb-0">
-                            <i class="fas fa-info-circle me-2"></i>
-                            View and manage all registered volunteers in the Community Connect system. 
-                            Click on a volunteer to update their contact information.
-                        </p>
-                    </div>
-                    <div class="col-md-4 text-end">
-                        <span class="badge bg-info fs-6">
-                            {{ volunteers|length }} Volunteer{{ 's' if volunteers|length != 1 else '' }}
-                        </span>
-                    </div>
-                </div>
-
                 {% if volunteers %}
-                    <!-- Desktop/Tablet View -->
-                    <div class="d-none d-lg-block">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th scope="col">
-                                            <i class="fas fa-hashtag me-1"></i>
-                                            ID
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-user me-1"></i>
-                                            Name
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-birthday-cake me-1"></i>
-                                            Age
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-envelope me-1"></i>
-                                            Email
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-phone me-1"></i>
-                                            Phone
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-calendar me-1"></i>
-                                            Registered
-                                        </th>
-                                        <th scope="col">
-                                            <i class="fas fa-cogs me-1"></i>
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for volunteer in volunteers %}
-                                    <tr>
-                                        <td>
-                                            <span class="badge bg-secondary">{{ volunteer.volunteer_id }}</span>
-                                        </td>
-                                        <td>
-                                            <strong>{{ volunteer.first_name }} {{ volunteer.last_name }}</strong>
-                                        </td>
-                                        <td>
-                                            {% if volunteer.date_of_birth %}
-                                                {{ volunteer.date_of_birth|age }} years
-                                            {% else %}
-                                                N/A
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <a href="mailto:{{ volunteer.email }}" class="text-decoration-none">
-                                                {{ volunteer.email }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="tel:{{ volunteer.phone }}" class="text-decoration-none">
-                                                {{ volunteer.phone|phone }}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <small class="text-muted">
-                                                {{ volunteer.registration_date|datetime }}
-                                            </small>
-                                        </td>
-                                        <td>
-                                            <a href="{{ url_for('update_volunteer_contact', volunteer_id=volunteer.volunteer_id) }}" 
-                                               class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-edit me-1"></i>
-                                                Update Phone
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Registered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for volunteer in volunteers %}
+                                <tr>
+                                    <td>{{ volunteer.volunteer_id }}</td>
+                                    <td><strong>{{ volunteer.first_name }} {{ volunteer.last_name }}</strong></td>
+                                    <td>{{ volunteer.email }}</td>
+                                    <td>{{ volunteer.phone }}</td>
+                                    <td>{{ volunteer.address }}</td>
+                                    <td>{{ volunteer.registration_date }}</td>
+                                    <td>
+                                        <a href="{{ url_for('update_volunteer_contact', volunteer_id=volunteer.volunteer_id) }}" 
+                                           class="btn btn-outline-primary btn-sm">Update Phone</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-
-                    <!-- Mobile View -->
-                    <div class="d-lg-none">
-                        <div class="row">
-                            {% for volunteer in volunteers %}
-                            <div class="col-md-6 mb-3">
-                                <div class="card border-0 shadow-sm">
-                                    <div class="card-header bg-light">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h6 class="mb-0">
-                                                <i class="fas fa-user me-1"></i>
-                                                {{ volunteer.first_name }} {{ volunteer.last_name }}
-                                            </h6>
-                                            <span class="badge bg-secondary">ID: {{ volunteer.volunteer_id }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <!-- Email -->
-                                        <div class="d-flex align-items-center mb-2">
-                                            <i class="fas fa-envelope text-primary me-2" style="width: 16px;"></i>
-                                            <a href="mailto:{{ volunteer.email }}" class="text-decoration-none small">
-                                                {{ volunteer.email }}
-                                            </a>
-                                        </div>
-                                        
-                                        <!-- Phone -->
-                                        <div class="d-flex align-items-center mb-2">
-                                            <i class="fas fa-phone text-success me-2" style="width: 16px;"></i>
-                                            <a href="tel:{{ volunteer.phone }}" class="text-decoration-none small">
-                                                {{ volunteer.phone|phone }}
-                                            </a>
-                                        </div>
-                                        
-                                        <!-- Age -->
-                                        <div class="d-flex align-items-center mb-2">
-                                            <i class="fas fa-birthday-cake text-warning me-2" style="width: 16px;"></i>
-                                            <small class="text-muted">
-                                                {% if volunteer.date_of_birth %}
-                                                    {{ volunteer.date_of_birth|age }} years old
-                                                {% else %}
-                                                    Age not available
-                                                {% endif %}
-                                            </small>
-                                        </div>
-                                        
-                                        <!-- Address -->
-                                        <div class="d-flex align-items-start mb-2">
-                                            <i class="fas fa-map-marker-alt text-danger me-2 mt-1" style="width: 16px;"></i>
-                                            <small class="text-muted">{{ volunteer.address }}</small>
-                                        </div>
-                                        
-                                        <!-- Registration Date -->
-                                        <div class="d-flex align-items-center mb-3">
-                                            <i class="fas fa-calendar text-info me-2" style="width: 16px;"></i>
-                                            <small class="text-muted">
-                                                Registered: {{ volunteer.registration_date|datetime }}
-                                            </small>
-                                        </div>
-                                        
-                                        <!-- Actions -->
-                                        <div class="d-grid">
-                                            <a href="{{ url_for('update_volunteer_contact', volunteer_id=volunteer.volunteer_id) }}" 
-                                               class="btn btn-outline-primary btn-sm">
-                                                <i class="fas fa-edit me-1"></i>
-                                                Update Phone Number
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                    <!-- Summary Statistics -->
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="card bg-light border-0">
-                                <div class="card-body">
-                                    <h6 class="card-title">
-                                        <i class="fas fa-chart-bar me-2"></i>
-                                        Volunteer Statistics
-                                    </h6>
-                                    
-                                    <div class="row text-center">
-                                        <div class="col-6 col-md-3 mb-2">
-                                            <div class="border-end">
-                                                <div class="h4 mb-0 text-info">{{ volunteers|length }}</div>
-                                                <small class="text-muted">Total Volunteers</small>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-6 col-md-3 mb-2">
-                                            <div class="border-end">
-                                                {% set recent_count = 0 %}
-                                                {% for volunteer in volunteers %}
-                                                    {% if volunteer.registration_date %}
-                                                        {% set reg_date = volunteer.registration_date %}
-                                                        {% if reg_date > '2025-01-01' %}
-                                                            {% set recent_count = recent_count + 1 %}
-                                                        {% endif %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                                <div class="h4 mb-0 text-success">{{ recent_count }}</div>
-                                                <small class="text-muted">Recent</small>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-6 col-md-3 mb-2">
-                                            <div class="border-end">
-                                                {% set avg_age = 0 %}
-                                                {% set age_count = 0 %}
-                                                {% for volunteer in volunteers %}
-                                                    {% if volunteer.date_of_birth %}
-                                                        {% set age = volunteer.date_of_birth|age %}
-                                                        {% if age != "N/A" %}
-                                                            {% set avg_age = avg_age + age %}
-                                                            {% set age_count = age_count + 1 %}
-                                                        {% endif %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                                {% if age_count > 0 %}
-                                                    {% set avg_age = (avg_age / age_count)|round %}
-                                                    <div class="h4 mb-0 text-warning">{{ avg_age }}</div>
-                                                    <small class="text-muted">Average Age</small>
-                                                {% else %}
-                                                    <div class="h4 mb-0 text-muted">N/A</div>
-                                                    <small class="text-muted">Average Age</small>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-6 col-md-3 mb-2">
-                                            {% set email_domains = [] %}
-                                            {% for volunteer in volunteers %}
-                                                {% set domain = volunteer.email.split('@')[1] %}
-                                                {% set _ = email_domains.append(domain) %}
-                                            {% endfor %}
-                                            {% set unique_domains = email_domains|unique|list %}
-                                            <div class="h4 mb-0 text-primary">{{ unique_domains|length }}</div>
-                                            <small class="text-muted">Email Domains</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <strong>Summary:</strong> Displaying {{ volunteers|length }} volunteer{{ 's' if volunteers|length != 1 else '' }}.
                     </div>
                     
                 {% else %}
-                    <!-- No Volunteers Found -->
-                    <div class="text-center py-5">
-                        <div class="display-1 text-muted mb-3">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h4 class="text-muted">No Volunteers Registered</h4>
-                        <p class="text-muted">
-                            There are currently no volunteers registered in the system.
-                        </p>
-                        <div class="mb-3">
-                            <a href="{{ url_for('new_volunteer') }}" class="btn btn-primary btn-lg">
-                                <i class="fas fa-user-plus me-2"></i>
-                                Register First Volunteer
-                            </a>
-                        </div>
-                        <div class="alert alert-info d-inline-block" role="alert">
-                            <i class="fas fa-info-circle me-2"></i>
-                            <strong>Database Note:</strong> This could indicate a database connection issue or that 
-                            the database hasn't been populated with sample data yet.
-                        </div>
+                    <div class="alert alert-warning">
+                        <strong>No Volunteers Found:</strong> There are currently no volunteers registered in the system.
                     </div>
+                    <a href="{{ url_for('new_volunteer') }}" class="btn btn-primary">Register First Volunteer</a>
                 {% endif %}
             </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="card border-0 shadow-sm mt-4">
-            <div class="card-body">
-                <h6 class="card-title">
-                    <i class="fas fa-bolt me-2"></i>
-                    Quick Actions
-                </h6>
-                <div class="row">
-                    <div class="col-md-6 col-lg-3 mb-2">
-                        <div class="d-grid">
-                            <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
-                                <i class="fas fa-home me-2"></i>
-                                Back to Dashboard
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-2">
-                        <div class="d-grid">
-                            <a href="{{ url_for('new_volunteer') }}" class="btn btn-primary">
-                                <i class="fas fa-user-plus me-2"></i>
-                                Add New Volunteer
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-2">
-                        <div class="d-grid">
-                            <a href="{{ url_for('view_organisations') }}" class="btn btn-outline-success">
-                                <i class="fas fa-building me-2"></i>
-                                View Organisations
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-2">
-                        <div class="d-grid">
-                            <a href="{{ url_for('view_events') }}" class="btn btn-outline-warning">
-                                <i class="fas fa-calendar me-2"></i>
-                                View Events
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            
+            <div class="card-footer">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary">Back to Home</a>
+                <a href="{{ url_for('new_volunteer') }}" class="btn btn-primary">Add New Volunteer</a>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    // Add search functionality for volunteers
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add search input to the page
-        const cardBody = document.querySelector('.card-body');
-        const firstRow = cardBody.querySelector('.row');
-        
-        // Create search input
-        const searchDiv = document.createElement('div');
-        searchDiv.className = 'col-12 mb-3';
-        searchDiv.innerHTML = `
-            <div class="input-group">
-                <span class="input-group-text">
-                    <i class="fas fa-search"></i>
-                </span>
-                <input type="text" class="form-control" id="volunteerSearch" 
-                       placeholder="Search volunteers by name or email...">
-                <button class="btn btn-outline-secondary" type="button" id="clearSearch">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        `;
-        
-        // Insert after the info row
-        firstRow.after(searchDiv);
-        
-        const searchInput = document.getElementById('volunteerSearch');
-        const clearButton = document.getElementById('clearSearch');
-        const volunteerRows = document.querySelectorAll('tbody tr, .col-md-6');
-        
-        // Search functionality
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            
-            volunteerRows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                if (text.includes(searchTerm)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-        
-        // Clear search
-        clearButton.addEventListener('click', function() {
-            searchInput.value = '';
-            volunteerRows.forEach(row => {
-                row.style.display = '';
-            });
-            searchInput.focus();
-        });
-        
-        // Add hover effects to volunteer cards and rows
-        const hoverElements = document.querySelectorAll('.table tbody tr, .card.border-0.shadow-sm');
-        hoverElements.forEach(element => {
-            element.addEventListener('mouseenter', function() {
-                if (this.tagName === 'TR') {
-                    this.style.backgroundColor = '#f8f9fa';
-                } else {
-                    this.style.transform = 'translateY(-2px)';
-                    this.style.transition = 'transform 0.2s ease-in-out';
-                }
-            });
-            
-            element.addEventListener('mouseleave', function() {
-                if (this.tagName === 'TR') {
-                    this.style.backgroundColor = '';
-                } else {
-                    this.style.transform = 'translateY(0)';
-                }
-            });
-        });
-    });
-</script>
 {% endblock %}

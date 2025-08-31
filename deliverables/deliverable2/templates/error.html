@@ -4,326 +4,69 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10">
+    <div class="col-lg-8">
         <div class="text-center">
-            <!-- Error Icon -->
-            <div class="display-1 text-danger mb-4">
-                {% if error_code == 404 %}
-                    <i class="fas fa-search"></i>
-                {% elif error_code == 500 %}
-                    <i class="fas fa-server"></i>
-                {% else %}
-                    <i class="fas fa-exclamation-triangle"></i>
-                {% endif %}
-            </div>
-
-            <!-- Error Code -->
-            <h1 class="display-1 fw-bold text-danger mb-3">
-                {{ error_code or "Error" }}
-            </h1>
-
-            <!-- Error Message -->
-            <div class="card border-0 shadow-sm mb-4">
+            <h1 class="display-1 text-danger mb-3">{{ error_code or "Error" }}</h1>
+            
+            <div class="card mb-4">
                 <div class="card-body">
-                    <h2 class="card-title text-dark mb-3">
+                    <h2 class="card-title">
                         {% if error_code == 404 %}
-                            <i class="fas fa-map-signs me-2"></i>
                             Page Not Found
                         {% elif error_code == 500 %}
-                            <i class="fas fa-tools me-2"></i>
                             Internal Server Error
                         {% else %}
-                            <i class="fas fa-exclamation-circle me-2"></i>
                             Something Went Wrong
                         {% endif %}
                     </h2>
                     
-                    <p class="card-text text-muted mb-4">
+                    <p class="card-text">
                         {% if error_message %}
                             {{ error_message }}
                         {% elif error_code == 404 %}
-                            The page you're looking for doesn't exist or has been moved.
+                            The page you're looking for doesn't exist.
                         {% elif error_code == 500 %}
-                            We're experiencing technical difficulties. Please try again later.
+                            We're experiencing technical difficulties.
                         {% else %}
-                            An unexpected error occurred while processing your request.
+                            An unexpected error occurred.
                         {% endif %}
                     </p>
-
-                    <!-- Helpful Suggestions -->
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h6 class="text-primary">
-                                <i class="fas fa-lightbulb me-1"></i>
-                                What you can do:
-                            </h6>
-                            <ul class="list-unstyled text-muted small">
-                                {% if error_code == 404 %}
-                                    <li><i class="fas fa-check text-success me-2"></i>Check the URL for typos</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Use the navigation menu above</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Return to the home page</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Try searching for what you need</li>
-                                {% elif error_code == 500 %}
-                                    <li><i class="fas fa-check text-success me-2"></i>Refresh the page</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Try again in a few minutes</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Check database connection</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Contact system administrator</li>
-                                {% else %}
-                                    <li><i class="fas fa-check text-success me-2"></i>Refresh the page</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Go back and try again</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Return to the home page</li>
-                                    <li><i class="fas fa-check text-success me-2"></i>Contact support if problem persists</li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                        
-                        <div class="col-md-6">
-                            <h6 class="text-warning">
-                                <i class="fas fa-info-circle me-1"></i>
-                                Technical Details:
-                            </h6>
-                            <div class="bg-light p-3 rounded small">
-                                <div class="row">
-                                    <div class="col-sm-4"><strong>Error Code:</strong></div>
-                                    <div class="col-sm-8">{{ error_code or "Unknown" }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4"><strong>Timestamp:</strong></div>
-                                    <div class="col-sm-8">{{ ""|now }}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4"><strong>Request URL:</strong></div>
-                                    <div class="col-sm-8 text-break">{{ request.url if request else "Unknown" }}</div>
-                                </div>
-                                {% if error_code == 500 %}
-                                <div class="row">
-                                    <div class="col-sm-4"><strong>Note:</strong></div>
-                                    <div class="col-sm-8 text-danger">Check server logs for details</div>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>Error Code:</strong> {{ error_code or "Unknown" }}<br>
+                        <strong>Request URL:</strong> {{ request.url if request else "Unknown" }}
                     </div>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="row justify-content-center">
-                <div class="col-auto">
-                    <div class="btn-group" role="group">
-                        <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
-                            <i class="fas fa-home me-2"></i>
-                            Go Home
-                        </a>
-                        <button onclick="window.history.back()" class="btn btn-outline-secondary btn-lg">
-                            <i class="fas fa-arrow-left me-2"></i>
-                            Go Back
-                        </button>
-                        <button onclick="window.location.reload()" class="btn btn-outline-info btn-lg">
-                            <i class="fas fa-sync-alt me-2"></i>
-                            Refresh
-                        </button>
-                    </div>
-                </div>
+            <div class="mb-4">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">Go Home</a>
+                <button onclick="window.history.back()" class="btn btn-secondary">Go Back</button>
+                <button onclick="window.location.reload()" class="btn btn-info">Refresh</button>
             </div>
         </div>
 
-        <!-- Quick Navigation -->
-        <div class="card border-0 shadow-sm mt-5">
-            <div class="card-header bg-light">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-compass me-2"></i>
-                    Quick Navigation
-                </h5>
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5>Quick Navigation</h5>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="d-grid">
-                            <a href="{{ url_for('index') }}" class="btn btn-outline-primary">
-                                <i class="fas fa-home me-2"></i>
-                                Dashboard
-                            </a>
-                        </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-primary btn-block">Dashboard</a>
                     </div>
-                    <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="d-grid">
-                            <a href="{{ url_for('view_volunteers') }}" class="btn btn-outline-info">
-                                <i class="fas fa-users me-2"></i>
-                                Volunteers
-                            </a>
-                        </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('view_volunteers') }}" class="btn btn-outline-info btn-block">Volunteers</a>
                     </div>
-                    <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="d-grid">
-                            <a href="{{ url_for('view_organisations') }}" class="btn btn-outline-success">
-                                <i class="fas fa-building me-2"></i>
-                                Organisations
-                            </a>
-                        </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('view_organisations') }}" class="btn btn-outline-success btn-block">Organizations</a>
                     </div>
-                    <div class="col-md-6 col-lg-3 mb-3">
-                        <div class="d-grid">
-                            <a href="{{ url_for('view_events') }}" class="btn btn-outline-warning">
-                                <i class="fas fa-calendar me-2"></i>
-                                Events
-                            </a>
-                        </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{{ url_for('view_events') }}" class="btn btn-outline-warning btn-block">Events</a>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Database Status Check (for 500 errors) -->
-        {% if error_code == 500 %}
-        <div class="card border-danger mt-4">
-            <div class="card-header bg-danger text-white">
-                <h6 class="card-title mb-0">
-                    <i class="fas fa-database me-2"></i>
-                    Database Connection Check
-                </h6>
-            </div>
-            <div class="card-body">
-                <p class="card-text">
-                    Internal server errors are often related to database connectivity issues. 
-                    Here are some common causes and solutions:
-                </p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h6 class="text-danger">Common Causes:</h6>
-                        <ul class="small">
-                            <li>Database file not found or corrupted</li>
-                            <li>Foreign key constraint violations</li>
-                            <li>SQL syntax errors in queries</li>
-                            <li>Insufficient file permissions</li>
-                            <li>Database connection timeout</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="text-success">Quick Fixes:</h6>
-                        <ul class="small">
-                            <li>Ensure <code>community_connect.db</code> exists</li>
-                            <li>Check file read/write permissions</li>
-                            <li>Verify database schema is created</li>
-                            <li>Run database initialization script</li>
-                            <li>Check Flask application logs</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="alert alert-info mt-3" role="alert">
-                    <i class="fas fa-terminal me-2"></i>
-                    <strong>Developer Note:</strong> Run <code>python database.py</code> to test database connectivity 
-                    or check the Flask console output for specific error messages.
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
-        <!-- Report Issue Section -->
-        <div class="card border-0 shadow-sm mt-4">
-            <div class="card-body text-center">
-                <h6 class="card-title">
-                    <i class="fas fa-bug me-2"></i>
-                    Still Having Problems?
-                </h6>
-                <p class="card-text text-muted small mb-3">
-                    If this error persists, it might be a bug in the Community Connect system.
-                </p>
-                <div class="alert alert-light d-inline-block" role="alert">
-                    <i class="fas fa-envelope me-2"></i>
-                    <strong>Contact:</strong> System Administrator | 
-                    <strong>Project:</strong> Community Connect Database Project | 
-                    <strong>Author:</strong> Daniel Bai
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add some interactive features to the error page
-        
-        // Animate the error icon
-        const errorIcon = document.querySelector('.display-1 i');
-        if (errorIcon) {
-            setInterval(() => {
-                errorIcon.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    errorIcon.style.transform = 'scale(1)';
-                }, 200);
-            }, 2000);
-        }
-        
-        // Add keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Press 'H' to go home
-            if (e.key.toLowerCase() === 'h' && !e.ctrlKey && !e.altKey) {
-                window.location.href = "{{ url_for('index') }}";
-            }
-            
-            // Press 'B' to go back
-            if (e.key.toLowerCase() === 'b' && !e.ctrlKey && !e.altKey) {
-                window.history.back();
-            }
-            
-            // Press 'R' to refresh
-            if (e.key.toLowerCase() === 'r' && !e.ctrlKey && !e.altKey) {
-                e.preventDefault();
-                window.location.reload();
-            }
-        });
-        
-        // Show keyboard shortcuts hint
-        const shortcutsHint = document.createElement('div');
-        shortcutsHint.className = 'text-center mt-3';
-        shortcutsHint.innerHTML = `
-            <small class="text-muted">
-                <i class="fas fa-keyboard me-1"></i>
-                Keyboard shortcuts: <kbd>H</kbd> Home | <kbd>B</kbd> Back | <kbd>R</kbd> Refresh
-            </small>
-        `;
-        
-        const actionButtons = document.querySelector('.row.justify-content-center');
-        if (actionButtons) {
-            actionButtons.after(shortcutsHint);
-        }
-        
-        // Add click tracking for debugging
-        document.querySelectorAll('a, button').forEach(element => {
-            element.addEventListener('click', function() {
-                console.log('Error page action:', this.textContent.trim(), 'clicked');
-            });
-        });
-        
-        // Auto-refresh for 500 errors (optional)
-        {% if error_code == 500 %}
-        let autoRefreshCountdown = 30;
-        const refreshButton = document.querySelector('button[onclick="window.location.reload()"]');
-        
-        if (refreshButton) {
-            const originalText = refreshButton.innerHTML;
-            
-            const countdown = setInterval(() => {
-                refreshButton.innerHTML = `<i class="fas fa-sync-alt me-2"></i>Refresh (${autoRefreshCountdown}s)`;
-                autoRefreshCountdown--;
-                
-                if (autoRefreshCountdown < 0) {
-                    clearInterval(countdown);
-                    refreshButton.innerHTML = originalText;
-                    // Optionally auto-refresh
-                    // window.location.reload();
-                }
-            }, 1000);
-            
-            // Cancel auto-refresh on user interaction
-            refreshButton.addEventListener('click', () => {
-                clearInterval(countdown);
-            });
-        }
-        {% endif %}
-    });
-</script>
 {% endblock %}

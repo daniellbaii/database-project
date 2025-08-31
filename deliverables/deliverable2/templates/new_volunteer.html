@@ -4,243 +4,95 @@
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-lg-8 col-md-10">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h4 class="card-title mb-0">
-                    <i class="fas fa-user-plus me-2"></i>
-                    Register New Volunteer
-                </h4>
-                <small class="text-light">CREATE Operation - Add a new volunteer to the database</small>
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>Register New Volunteer</h4>
+                <small>CREATE Operation - Add a new volunteer to the database</small>
             </div>
             
             <div class="card-body">
-                <p class="text-muted mb-4">
-                    <i class="fas fa-info-circle me-2"></i>
-                    Complete the form below to register a new volunteer in the Community Connect system. 
-                    All fields marked with <span class="text-danger">*</span> are required.
-                </p>
+                <p class="text-muted">Complete the form below to register a new volunteer. All fields marked with <span class="text-danger">*</span> are required.</p>
 
-                <form method="POST" novalidate>
+                <form method="POST">
                     <div class="row">
-                        <!-- First Name -->
                         <div class="col-md-6 mb-3">
-                            <label for="first_name" class="form-label">
-                                <i class="fas fa-user me-1"></i>
-                                First Name <span class="text-danger">*</span>
-                            </label>
+                            <label for="first_name" class="form-label">First Name <span class="text-danger">*</span></label>
                             <input type="text" 
                                    class="form-control" 
                                    id="first_name" 
                                    name="first_name" 
                                    value="{{ first_name or '' }}"
-                                   required
-                                   maxlength="50"
-                                   placeholder="Enter first name">
-                            <div class="form-text">Enter the volunteer's first name (required)</div>
+                                   required>
                         </div>
 
-                        <!-- Last Name -->
                         <div class="col-md-6 mb-3">
-                            <label for="last_name" class="form-label">
-                                <i class="fas fa-user me-1"></i>
-                                Last Name <span class="text-danger">*</span>
-                            </label>
+                            <label for="last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
                             <input type="text" 
                                    class="form-control" 
                                    id="last_name" 
                                    name="last_name" 
                                    value="{{ last_name or '' }}"
-                                   required
-                                   maxlength="50"
-                                   placeholder="Enter last name">
-                            <div class="form-text">Enter the volunteer's last name (required)</div>
+                                   required>
                         </div>
                     </div>
 
                     <div class="row">
-                        <!-- Date of Birth -->
                         <div class="col-md-6 mb-3">
-                            <label for="date_of_birth" class="form-label">
-                                <i class="fas fa-calendar me-1"></i>
-                                Date of Birth <span class="text-danger">*</span>
-                            </label>
+                            <label for="date_of_birth" class="form-label">Date of Birth <span class="text-danger">*</span></label>
                             <input type="date" 
                                    class="form-control" 
                                    id="date_of_birth" 
                                    name="date_of_birth" 
                                    value="{{ date_of_birth or '' }}"
-                                   required
-                                   max="2009-01-01">
-                            <div class="form-text">Must be at least 16 years old to volunteer</div>
+                                   required>
                         </div>
 
-                        <!-- Email -->
                         <div class="col-md-6 mb-3">
-                            <label for="email" class="form-label">
-                                <i class="fas fa-envelope me-1"></i>
-                                Email Address <span class="text-danger">*</span>
-                            </label>
+                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
                             <input type="email" 
                                    class="form-control" 
                                    id="email" 
                                    name="email" 
                                    value="{{ email or '' }}"
-                                   required
-                                   placeholder="volunteer@email.com">
-                            <div class="form-text">Valid email address for notifications and contact</div>
+                                   required>
                         </div>
                     </div>
 
                     <div class="row">
-                        <!-- Phone Number -->
                         <div class="col-md-6 mb-3">
-                            <label for="phone" class="form-label">
-                                <i class="fas fa-phone me-1"></i>
-                                Phone Number <span class="text-danger">*</span>
-                            </label>
+                            <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
                             <input type="tel" 
                                    class="form-control" 
                                    id="phone" 
                                    name="phone" 
                                    value="{{ phone or '' }}"
-                                   required
-                                   pattern="[0-9\-\(\)\s]+"
-                                   placeholder="0412-345-678">
-                            <div class="form-text">Australian mobile or landline number</div>
+                                   required>
                         </div>
 
-                        <!-- Address -->
                         <div class="col-md-6 mb-3">
-                            <label for="address" class="form-label">
-                                <i class="fas fa-map-marker-alt me-1"></i>
-                                Address <span class="text-danger">*</span>
-                            </label>
+                            <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
                             <textarea class="form-control" 
                                       id="address" 
                                       name="address" 
                                       rows="2"
-                                      required
-                                      maxlength="200"
-                                      placeholder="Enter full residential address">{{ address or '' }}</textarea>
-                            <div class="form-text">Full residential address including suburb and postcode</div>
+                                      required>{{ address or '' }}</textarea>
                         </div>
                     </div>
 
-                    <!-- Privacy Notice -->
-                    <div class="alert alert-info d-flex" role="alert">
-                        <i class="fas fa-shield-alt me-2 mt-1"></i>
-                        <div>
-                            <strong>Privacy Notice:</strong> 
-                            Your personal information will be stored securely and used only for volunteer 
-                            coordination purposes. We comply with Australian Privacy Principles and will 
-                            never share your details with third parties without consent.
-                        </div>
+                    <div class="alert alert-info">
+                        <strong>Privacy Notice:</strong> Your personal information will be stored securely and used only for volunteer coordination purposes.
                     </div>
 
-                    <!-- Form Actions -->
                     <div class="row mt-4">
                         <div class="col-12">
-                            <div class="d-grid d-md-flex gap-2">
-                                <button type="submit" class="btn btn-primary btn-lg flex-fill">
-                                    <i class="fas fa-save me-2"></i>
-                                    Register Volunteer
-                                </button>
-                                <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg flex-fill">
-                                    <i class="fas fa-times me-2"></i>
-                                    Cancel
-                                </a>
-                            </div>
+                            <button type="submit" class="btn btn-primary">Register Volunteer</button>
+                            <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-
-        <!-- Help Section -->
-        <div class="card border-0 shadow-sm mt-4">
-            <div class="card-body">
-                <h6 class="card-title">
-                    <i class="fas fa-question-circle me-2"></i>
-                    Need Help?
-                </h6>
-                <p class="card-text small text-muted mb-0">
-                    If you encounter any issues with registration, please contact our support team. 
-                    Make sure all required fields are completed and your email address is valid.
-                </p>
-            </div>
-        </div>
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    // Form validation and enhancement
-    document.addEventListener('DOMContentLoaded', function() {
-        const form = document.querySelector('form');
-        const phoneInput = document.querySelector('#phone');
-        const dobInput = document.querySelector('#date_of_birth');
-        
-        // Phone number formatting
-        phoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            
-            // Format Australian mobile numbers
-            if (value.length >= 4) {
-                if (value.startsWith('04')) {
-                    // Mobile format: 04XX XXX XXX
-                    value = value.replace(/(\d{4})(\d{3})(\d{3})/, '$1-$2-$3');
-                } else if (value.startsWith('08') || value.startsWith('02') || value.startsWith('03') || value.startsWith('07')) {
-                    // Landline format: 0X XXXX XXXX
-                    value = value.replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3');
-                }
-            }
-            
-            e.target.value = value;
-        });
-        
-        // Set maximum date for date of birth (must be at least 16 years old)
-        const today = new Date();
-        const maxDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
-        dobInput.max = maxDate.toISOString().split('T')[0];
-        
-        // Form submission validation
-        form.addEventListener('submit', function(e) {
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.classList.add('is-invalid');
-                    isValid = false;
-                } else {
-                    field.classList.remove('is-invalid');
-                    field.classList.add('is-valid');
-                }
-            });
-            
-            // Additional email validation
-            const emailField = document.querySelector('#email');
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (emailField.value && !emailPattern.test(emailField.value)) {
-                emailField.classList.add('is-invalid');
-                isValid = false;
-            }
-            
-            // Additional phone validation
-            const phoneField = document.querySelector('#phone');
-            const phonePattern = /^[\d\-\(\)\s]{10,}$/;
-            if (phoneField.value && !phonePattern.test(phoneField.value)) {
-                phoneField.classList.add('is-invalid');
-                isValid = false;
-            }
-            
-            if (!isValid) {
-                e.preventDefault();
-                alert('Please correct the highlighted fields before submitting.');
-            }
-        });
-    });
-</script>
 {% endblock %}
