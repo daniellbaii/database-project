@@ -1,13 +1,3 @@
-# Community Connect - Week 2 Deliverable
-## Database Implementation and Basic Application
-
-**Author:** Daniel Bai  
-**Date:** 2025  
-**Course:** Computer Science ATAR Year 12  
-**Project:** Community Connect Volunteer Coordination System  
-
----
-
 ## 📋 Deliverable Overview
 
 This deliverable implements **Week 2: Database Implementation and Basic Application** requirements, including:
@@ -295,68 +285,6 @@ Comprehensive documentation is provided in `ACID_Properties_Documentation.md` co
 
 ---
 
-## 📈 Technical Specifications
-
-### Database
-- **Engine:** SQLite 3
-- **Size:** ~50KB with sample data
-- **Tables:** 7 normalized tables
-- **Records:** 20+ sample records
-- **Constraints:** Foreign keys, checks, unique
-
-### Web Application  
-- **Framework:** Flask 2.3+
-- **Frontend:** Bootstrap 5, HTML5, CSS3
-- **JavaScript:** Vanilla JS with DOM manipulation
-- **Icons:** Font Awesome 6
-- **Responsive:** Mobile-first design
-
-### Performance
-- **Page Load:** <500ms local
-- **Database Queries:** Optimized with indexes
-- **Memory Usage:** Minimal footprint
-- **Concurrent Users:** SQLite supports multiple readers
-
----
-
-## 🔍 Code Quality Features
-
-### Python Code
-- **PEP 8** compliant formatting
-- **Type hints** where applicable
-- **Comprehensive** error handling
-- **Detailed** docstrings
-- **Modular** architecture
-
-### SQL Code  
-- **Consistent** naming conventions
-- **Proper** indentation
-- **Comprehensive** constraints
-- **Efficient** query structure
-
-### Frontend Code
-- **Semantic** HTML5 structure
-- **Accessible** form design
-- **Progressive** enhancement
-- **Cross-browser** compatibility
-
----
-
-## 🎓 Educational Value
-
-This deliverable demonstrates:
-
-1. **Database Design** principles and normalization
-2. **ACID Properties** in practical applications
-3. **Web Development** with Python Flask
-4. **Full-Stack** development skills
-5. **Professional** documentation practices
-6. **Version Control** ready structure
-7. **Security** best practices
-8. **Testing** methodologies
-
----
-
 ## 📝 Future Enhancements
 
 Potential improvements for future deliverables:
@@ -366,16 +294,3 @@ Potential improvements for future deliverables:
 - Email notifications
 - API endpoints for mobile apps
 - Advanced reporting and analytics
-
----
-
-## 📞 Support
-
-For questions about this deliverable:
-- **Author:** Daniel Bai
-- **Project:** Community Connect Database System
-- **Course:** Computer Science ATAR Year 12
-
----
-
-*This README provides comprehensive documentation for the Week 2 deliverable, demonstrating professional software development practices and thorough understanding of database concepts and web application development.*

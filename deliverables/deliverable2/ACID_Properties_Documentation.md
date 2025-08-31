@@ -1,12 +1,3 @@
-# ACID Properties Documentation
-## Community Connect Database System
-
-**Author:** Daniel Bai  
-**Date:** 2025  
-**Week 2 Deliverable:** Database Implementation and Basic Application  
-
----
-
 ## Executive Summary
 
 This document demonstrates how the Community Connect volunteer coordination database system implements and maintains ACID properties (Atomicity, Consistency, Isolation, and Durability) to ensure reliable and robust data transactions. The ACID properties are fundamental database characteristics that guarantee data integrity even in the face of errors, power failures, and concurrent access scenarios.
@@ -536,9 +527,3 @@ The Community Connect database system demonstrates robust implementation of all 
 3. **Isolation** allows multiple users to interact with the system simultaneously without conflicts, ensuring that concurrent operations don't interfere with each other.
 
 4. **Durability** guarantees that once data is committed to the database, it will persist even through system failures, providing reliability for critical volunteer coordination data.
-
-These ACID properties make the Community Connect system suitable for production use in real volunteer coordination scenarios, where data integrity and reliability are paramount for successful community engagement operations.
-
----
-
-*This documentation demonstrates the practical implementation of ACID properties in the Community Connect volunteer coordination database system, showcasing how theoretical database concepts translate to real-world application reliability and data integrity.*
