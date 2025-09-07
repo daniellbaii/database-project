@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Registered Volunteers - Community Connect{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Registered Volunteers</h4>
+                <small>Volunteer management and contact information</small>
+            </div>
+            
+            <div class="card-body">
+                {% if volunteers %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Registered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for volunteer in volunteers %}
+                                <tr>
+                                    <td>{{ volunteer.volunteer_id }}</td>
+                                    <td><strong>{{ volunteer.first_name }} {{ volunteer.last_name }}</strong></td>
+                                    <td>{{ volunteer.email }}</td>
+                                    <td>{{ volunteer.phone }}</td>
+                                    <td>{{ volunteer.address }}</td>
+                                    <td>{{ volunteer.registration_date }}</td>
+                                    <td>
+                                        <a href="{{ url_for('update_volunteer_contact', volunteer_id=volunteer.volunteer_id) }}" 
+                                           class="btn btn-outline-primary btn-sm">Update Phone</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <strong>Summary:</strong> Displaying {{ volunteers|length }} volunteer{{ 's' if volunteers|length != 1 else '' }}.
+                    </div>
+                    
+                {% else %}
+                    <div class="alert alert-warning">
+                        <strong>No Volunteers Found:</strong> There are currently no volunteers registered in the system.
+                    </div>
+                    <a href="{{ url_for('new_volunteer') }}" class="btn btn-primary">Register First Volunteer</a>
+                {% endif %}
+            </div>
+            
+            <div class="card-footer">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary">Back to Home</a>
+                <a href="{{ url_for('new_volunteer') }}" class="btn btn-primary">Add New Volunteer</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

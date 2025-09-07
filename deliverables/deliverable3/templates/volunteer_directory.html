@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Volunteer Directory - Community Connect{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Volunteer Directory</h2>
+            <span class="text-muted">Showing calculated full names and ages</span>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5>All Volunteers ({{ volunteers|length }})</h5>
+                <small class="text-muted">Names are concatenated fields, ages are calculated from date of birth</small>
+            </div>
+            <div class="card-body">
+                {% if volunteers %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Age</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Registration Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for volunteer in volunteers %}
+                            <tr>
+                                <td><strong>{{ volunteer.full_name }}</strong></td>
+                                <td>
+                                    <span class="badge bg-{% if volunteer.age < 25 %}success
+                                                           {% elif volunteer.age < 50 %}primary
+                                                           {% else %}secondary{% endif %}">
+                                        {{ volunteer.age }} years
+                                    </span>
+                                </td>
+                                <td>{{ volunteer.email }}</td>
+                                <td>{{ volunteer.phone }}</td>
+                                <td>{{ volunteer.address }}</td>
+                                <td>{{ volunteer.registration_date }}</td>
+                                <td>
+                                    <a href="{{ url_for('update_volunteer_contact', volunteer_id=volunteer.volunteer_id) }}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        Update Phone
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Age Distribution Summary -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h6>Age Distribution Summary</h6>
+                        <div class="row">
+                            {% set age_groups = {} %}
+                            {% for volunteer in volunteers %}
+                                {% if volunteer.age < 25 %}
+                                    {% set _ = age_groups.update({'Under 25': age_groups.get('Under 25', 0) + 1}) %}
+                                {% elif volunteer.age < 50 %}
+                                    {% set _ = age_groups.update({'25-49': age_groups.get('25-49', 0) + 1}) %}
+                                {% else %}
+                                    {% set _ = age_groups.update({'50+': age_groups.get('50+', 0) + 1}) %}
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-success">{{ age_groups.get('Under 25', 0) }}</h4>
+                                        <p class="mb-0">Under 25</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-primary">{{ age_groups.get('25-49', 0) }}</h4>
+                                        <p class="mb-0">25-49 years</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card bg-light">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-secondary">{{ age_groups.get('50+', 0) }}</h4>
+                                        <p class="mb-0">50+ years</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {% else %}
+                <div class="text-center py-5">
+                    <p class="text-muted mb-0">No volunteers found in the system.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

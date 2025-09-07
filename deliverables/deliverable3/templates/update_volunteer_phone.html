@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Update Volunteer Phone - Community Connect{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>Update Volunteer Contact Information</h4>
+                <small>UPDATE Operation - Modify volunteer phone number in the database</small>
+            </div>
+            
+            <div class="card-body">
+                {% if volunteer %}
+                    <div class="alert alert-info">
+                        <h6>Updating Contact for: {{ volunteer.first_name }} {{ volunteer.last_name }}</h6>
+                        <p class="mb-1">
+                            <strong>Email:</strong> {{ volunteer.email }}<br>
+                            <strong>Current Phone:</strong> {{ volunteer.phone }}<br>
+                            <strong>Address:</strong> {{ volunteer.address }}
+                        </p>
+                        <small class="text-muted">Registered: {{ volunteer.registration_date }}</small>
+                    </div>
+
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Current Phone Number</label>
+                                <div class="form-control bg-light" readonly>{{ volunteer.phone }}</div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">New Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" 
+                                       class="form-control" 
+                                       id="phone" 
+                                       name="phone" 
+                                       value="{{ new_phone or volunteer.phone }}"
+                                       required>
+                                <div class="form-text">Enter the new phone number</div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning">
+                            <strong>Phone Number Requirements:</strong>
+                            <ul class="mb-0 mt-2">
+                                <li>Must be a valid Australian phone number</li>
+                                <li>Minimum 10 digits required</li>
+                            </ul>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-warning">Update Phone Number</button>
+                                <a href="{{ url_for('view_volunteers') }}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+
+                {% else %}
+                    <div class="alert alert-danger">
+                        <strong>Volunteer Not Found:</strong> The requested volunteer could not be found in the database.
+                    </div>
+                    <a href="{{ url_for('view_volunteers') }}" class="btn btn-primary">Back to Volunteers List</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

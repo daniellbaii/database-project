@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Search Volunteers by Skill - Community Connect{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Search Volunteers by Skill</h2>
+        </div>
+        
+        <!-- Search Form -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="skill_name" class="form-label">Skill Name</label>
+                            <input type="text" class="form-control" id="skill_name" name="skill_name" 
+                                   value="{{ search_skill }}" placeholder="e.g., First Aid, Communication">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Available Skills Reference -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Available Skills</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for skill in skills %}
+                        <div class="col-md-3 mb-2">
+                            <span class="badge bg-secondary">{{ skill.skill_name }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Search Results -->
+        {% if search_skill %}
+        <div class="card">
+            <div class="card-header">
+                <h5>Search Results for "{{ search_skill }}" ({{ volunteers|length }} found)</h5>
+            </div>
+            <div class="card-body">
+                {% if volunteers %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Proficiency</th>
+                                <th>Experience</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for volunteer in volunteers %}
+                            <tr>
+                                <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
+                                <td>{{ volunteer.email }}</td>
+                                <td>{{ volunteer.phone }}</td>
+                                <td>
+                                    <span class="badge bg-{% if volunteer.proficiency_level == 'Expert' %}success
+                                                           {% elif volunteer.proficiency_level == 'Advanced' %}primary
+                                                           {% elif volunteer.proficiency_level == 'Intermediate' %}warning
+                                                           {% else %}secondary{% endif %}">
+                                        {{ volunteer.proficiency_level }}
+                                    </span>
+                                </td>
+                                <td>{{ volunteer.years_experience }} years</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No volunteers found with the specified skill.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

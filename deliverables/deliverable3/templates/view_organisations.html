@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Partner Organisations - Community Connect{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Partner Organisations</h4>
+                <small>READ Operation - Display all organisations from the database</small>
+            </div>
+            
+            <div class="card-body">
+                {% if organisations %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Organisation</th>
+                                    <th>Type</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for org in organisations %}
+                                <tr>
+                                    <td>{{ org.org_id }}</td>
+                                    <td>
+                                        <strong>{{ org.org_name }}</strong>
+                                        {% if org.description %}
+                                            <br><small class="text-muted">{{ org.description }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ org.org_type }}</span>
+                                    </td>
+                                    <td>{{ org.contact_email }}</td>
+                                    <td>{{ org.phone }}</td>
+                                    <td>{{ org.address }}</td>
+                                    <td>
+                                        <a href="{{ url_for('organisation_volunteers', org_id=org.org_id) }}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            View Volunteers
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <strong>Summary:</strong> Displaying {{ organisations|length }} partner organisation{{ 's' if organisations|length != 1 else '' }}.
+                    </div>
+                    
+                {% else %}
+                    <div class="alert alert-warning">
+                        <strong>No Organisations Found:</strong> There are currently no partner organisations in the database.
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-footer">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary">Back to Home</a>
+                <a href="{{ url_for('view_volunteers') }}" class="btn btn-outline-secondary">View Volunteers</a>
+                <a href="{{ url_for('view_events') }}" class="btn btn-primary">View Events</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

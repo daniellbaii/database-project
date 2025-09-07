@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics Dashboard - Community Connect{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Statistics Dashboard</h2>
+        
+        <!-- Event Statistics -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Event Statistics</h5>
+                <small class="text-muted">Volunteer registration counts and event status</small>
+            </div>
+            <div class="card-body">
+                {% if event_stats %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Organisation</th>
+                                <th>Registered</th>
+                                <th>Capacity</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                                <th>Start Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in event_stats %}
+                            <tr>
+                                <td>{{ event.event_name }}</td>
+                                <td>{{ event.org_name }}</td>
+                                <td>{{ event.volunteer_count }}</td>
+                                <td>{{ event.max_volunteers }}</td>
+                                <td>{{ event.duration_days }} days</td>
+                                <td>
+                                    <span class="badge bg-{% if event.status == 'Full' %}success
+                                                           {% elif event.status == 'Partial' %}warning
+                                                           {% else %}secondary{% endif %}">
+                                        {{ event.status }}
+                                    </span>
+                                </td>
+                                <td>{{ event.start_date }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No event statistics available.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Skill Distribution -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Skill Distribution</h5>
+                <small class="text-muted">Volunteer skills and experience levels</small>
+            </div>
+            <div class="card-body">
+                {% if skill_distribution %}
+                <div class="row">
+                    {% for skill in skill_distribution %}
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6>{{ skill.skill_name }}</h6>
+                                <p class="text-muted small mb-2">{{ skill.skill_category }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <small><strong>{{ skill.volunteer_count }}</strong> volunteers</small>
+                                    <small>Avg: {{ "%.1f"|format(skill.avg_experience) }} years</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">No skill distribution data available.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Organisation Summary -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Organisation Summary</h5>
+                <small class="text-muted">Events and volunteer engagement by organisation</small>
+            </div>
+            <div class="card-body">
+                {% if org_summary %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Organisation</th>
+                                <th>Type</th>
+                                <th>Total Events</th>
+                                <th>Unique Volunteers</th>
+                                <th>Total Registrations</th>
+                                <th>Avg Event Capacity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for org in org_summary %}
+                            <tr>
+                                <td>
+                                    {% if org.org_id %}
+                                    <a href="{{ url_for('organisation_volunteers', org_id=org.org_id) }}" 
+                                       class="text-decoration-none">
+                                        {{ org.org_name }}
+                                    </a>
+                                    {% else %}
+                                    {{ org.org_name }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ org.org_type }}</td>
+                                <td>{{ org.total_events }}</td>
+                                <td>{{ org.unique_volunteers }}</td>
+                                <td>{{ org.total_registrations }}</td>
+                                <td>{{ "%.1f"|format(org.avg_event_capacity) if org.avg_event_capacity else 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No organisation summary data available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Community Events - Community Connect{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4>Community Events</h4>
+                <small>Event management with DELETE operation capability</small>
+            </div>
+            
+            <div class="card-body">
+                {% if events %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Event Name</th>
+                                    <th>Organisation</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Max Volunteers</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for event in events %}
+                                <tr>
+                                    <td>{{ event.event_id }}</td>
+                                    <td>
+                                        <strong>{{ event.event_name }}</strong>
+                                        {% if event.description %}
+                                            <br><small class="text-muted">{{ event.description }}</small>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ event.org_name }}</td>
+                                    <td>{{ event.start_date }}</td>
+                                    <td>{{ event.location }}</td>
+                                    <td>{{ event.max_volunteers }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ url_for('delete_event_route', event_id=event.event_id) }}" style="display: inline;">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm" 
+                                                    onclick="return confirm('Are you sure you want to delete {{ event.event_name }}?')">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="alert alert-info mt-3">
+                        <strong>Summary:</strong> Displaying {{ events|length }} event{{ 's' if events|length != 1 else '' }}.
+                    </div>
+                    
+                {% else %}
+                    <div class="alert alert-warning">
+                        <strong>No Events Found:</strong> There are currently no events scheduled in the system.
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="card-footer">
+                <a href="{{ url_for('index') }}" class="btn btn-outline-primary">Back to Home</a>
+                <a href="{{ url_for('view_volunteers') }}" class="btn btn-outline-secondary">View Volunteers</a>
+                <a href="{{ url_for('view_organisations') }}" class="btn btn-primary">View Organizations</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

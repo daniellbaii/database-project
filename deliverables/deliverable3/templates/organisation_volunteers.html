@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}{{ organisation.org_name }} Volunteers - Community Connect{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>{{ organisation.org_name }} - Volunteer Registrations</h2>
+            <a href="{{ url_for('view_organisations') }}" class="btn btn-secondary">Back to Organisations</a>
+        </div>
+        
+        <!-- Organisation Info -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>{{ organisation.org_name }}</h5>
+                        <p class="text-muted">{{ organisation.org_type }}</p>
+                        <p>{{ organisation.description or 'No description available' }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Email:</strong> {{ organisation.contact_email }}</p>
+                        <p><strong>Phone:</strong> {{ organisation.phone }}</p>
+                        <p><strong>Address:</strong> {{ organisation.address }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Volunteers Table -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Registered Volunteers ({{ volunteers|length }})</h5>
+            </div>
+            <div class="card-body">
+                {% if volunteers %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Volunteer Name</th>
+                                <th>Event</th>
+                                <th>Event Date</th>
+                                <th>Location</th>
+                                <th>Registration Date</th>
+                                <th>Status</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for volunteer in volunteers %}
+                            <tr>
+                                <td>{{ volunteer.first_name }} {{ volunteer.last_name }}</td>
+                                <td>{{ volunteer.event_name }}</td>
+                                <td>{{ volunteer.start_date }}</td>
+                                <td>{{ volunteer.location }}</td>
+                                <td>{{ volunteer.registration_date }}</td>
+                                <td>
+                                    <span class="badge bg-{% if volunteer.attendance_status == 'Attended' %}success
+                                                           {% elif volunteer.attendance_status == 'Registered' %}primary
+                                                           {% elif volunteer.attendance_status == 'No-Show' %}danger
+                                                           {% else %}warning{% endif %}">
+                                        {{ volunteer.attendance_status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <small>
+                                        {{ volunteer.email }}<br>
+                                        {{ volunteer.phone }}
+                                    </small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <p class="text-muted mb-0">No volunteers have registered for events from this organisation yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
